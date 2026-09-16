@@ -1,0 +1,12 @@
+{
+  "name": "starlink-internet-revenda",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site de revenda de internet via satélite com painel administrativo.",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "express": "^5.1.0"
+  }
+}
