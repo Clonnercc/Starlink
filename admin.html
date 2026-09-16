@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Painel | Starlink Internet</title><link rel="stylesheet" href="/admin.css"></head>
+<body>
+<div class="admin">
+  <header><div><div class="eyebrow">PAINEL ADMIN</div><h1>Starlink Internet</h1><p>Edite os dados exibidos no site.</p></div><a href="/">Ver site</a></header>
+  <form id="form">
+    <label>WhatsApp (somente números)<input id="whatsapp" required placeholder="5516999999999"></label>
+    <label>Telefone<input id="phone" placeholder="(16) 99999-9999"></label>
+    <label>Localização<input id="location"></label>
+    <label>Headline<input id="headline"></label>
+    <label>Subheadline<textarea id="subheadline"></textarea></label>
+    <label>Texto de serviços<textarea id="service_text"></textarea></label>
+    <button>Salvar alterações</button><span id="status"></span>
+  </form>
+  <div class="note"><b>Segurança:</b> defina <code>ADMIN_USER</code> e <code>ADMIN_PASSWORD</code> no Render. Não coloque sua senha no código.</div>
+</div>
+<script>
+const ids=["whatsapp","phone","location","headline","subheadline","service_text"];
+fetch("/api/settings").then(r=>r.json()).then(s=>ids.forEach(id=>document.getElementById(id).value=s[id]||""));
+document.getElementById("form").addEventListener("submit", async e=>{
+ e.preventDefault(); const data=Object.fromEntries(ids.map(id=>[id,document.getElementById(id).value]));
+ const r=await fetch("/api/settings",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+ document.getElementById("status").textContent=r.ok?"Salvo com sucesso.":"Não autorizado. Verifique usuário e senha.";
+});
+</script>
+</body></html>
